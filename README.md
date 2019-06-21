@@ -14,7 +14,10 @@ ConvenientBanner
 
 demo是用Module方式依赖，你也可以使用gradle 依赖:
 ```java
-   compile 'com.bigkoo:ConvenientBanner:2.1.1'//地址变ConvenientBanner 大写了，额。。。
+    implementation 'com.bigkoo:convenientbanner:2.1.5'//地址变小写了，额。。。
+    implementation 'androidx.recyclerview:recyclerview:1.0.0+'
+
+//   compile 'com.bigkoo:ConvenientBanner:2.1.4'//地址变ConvenientBanner 大写了，额。。。
 //compile 'com.bigkoo:convenientbanner:2.0.5'旧版
 ```
 
@@ -36,19 +39,24 @@ demo是用Module方式依赖，你也可以使用gradle 依赖:
 ```java
 //自定义你的Holder，实现更多复杂的界面，不一定是图片翻页，其他任何控件翻页亦可。
 convenientBanner.setPages(
-                new CBViewHolderCreator<LocalImageHolderView>() {
+                new CBViewHolderCreator() {
                     @Override
-                    public LocalImageHolderView createHolder() {
-                        return new LocalImageHolderView();
+                    public LocalImageHolderView createHolder(View itemView) {
+                        return new LocalImageHolderView(itemView);
+                    }
+
+                    @Override
+                    public int getLayoutId() {
+                        return R.layout.item_localimage;
                     }
                 }, localImages)
                 //设置两个点图片作为翻页指示器，不设置则没有指示器，可以根据自己需求自行配合自己的指示器,不需要圆点指示器可用不设
-                .setPageIndicator(new int[]{R.drawable.ic_page_indicator, R.drawable.ic_page_indicator_focused})
+//                .setPageIndicator(new int[]{R.drawable.ic_page_indicator, R.drawable.ic_page_indicator_focused})
+                .setOnItemClickListener(this);
                 //设置指示器的方向
-                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
-                //设置翻页的效果，不需要翻页效果可用不设
-                //.setPageTransformer(Transformer.DefaultTransformer);    集成特效之后会有白屏现象，新版已经分离，如果要集成特效的例子可以看Demo的点击响应。
-//        convenientBanner.setManualPageable(false);//设置不能手动影响
+//                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
+//                .setOnPageChangeListener(this)//监听翻页事件
+                ;
 
 public class LocalImageHolderView implements Holder<Integer>{
     private ImageView imageView;
@@ -74,6 +82,19 @@ public class LocalImageHolderView implements Holder<Integer>{
 - [RecyclerViewCardGallery](https://github.com/zjw-swun/RecyclerViewCardGallery)
 
 >## 更新说明
+
+>v2.1.5
+ -  androidx<br />
+
+>v2.1.4
+ -  数据为空的时候异常处理。<br />
+
+>v2.1.3
+ -  notifyDataSetChange的时候，回到0的位置。<br />
+
+
+>v2.1.2
+ -  可以setlayoutManager了。<br />
 
 >v2.1.1
  -  内部实现改为由自定义的LinearSnapHelper改为PagerSnapHelper。<br />
